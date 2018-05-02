@@ -4,33 +4,51 @@ import itertools
 import os
 import argparse
 
-default_input_file = 'file1.txt'
 
+class WordsModifier:
+    default_input_file = 'file1.txt'
 
-def open_file_to_read_or_write(file_rw, opr, text=None):
-    if opr == 'r':
-        if os.path.isfile(file_rw):
+    def __init__(self, input_file, output_file, from_list_arr, to_list_arr):
+        self.input_file = input_file
+        self.output_file = output_file
+        self.from_list_arr = from_list_arr
+        self.to_list_arr = to_list_arr
+
+    def __open_file_to_read_or_write(self, file_rw, opr, text=None):
+        if opr == 'r':
+            if os.path.isfile(file_rw):
+                try:
+                    with open(file_rw, opr) as f:
+                        input_text = getattr(f, 'read')()
+                        return input_text
+                except IOError:
+                    print "Connot open input file!"
+            else:
+                print "File {0} does not exist, {1} used instead"\
+                        .format(file_rw, default_input_file)
+                input_text = open_file_to_read_or_write(default_input_file,
+                                                        opr)
+                return input_text
+
+        elif opr == 'w+':
             try:
                 with open(file_rw, opr) as f:
-                    input_text = getattr(f, 'read')()
-                    return input_text
+                    getattr(f, 'write')(text)
             except IOError:
-                print "Connot open input file!"
+                print "Connot open output file!"
         else:
-            print "File {0} does not exist, {1} used instead"\
-                    .format(file_rw, default_input_file)
-            input_text = open_file_to_read_or_write(default_input_file, opr)
-            return input_text
+            print "You use wrong operation!!"
+        return None
 
-    elif opr == 'w+':
-        try:
-            with open(file_rw, opr) as f:
-                getattr(f, 'write')(text)
-        except IOError:
-            print "Connot open output file!"
-    else:
-        print "You use wrong operation!!"
-    return None
+    def replace_words(self):
+        input_text = self.__open_file_to_read_or_write(self.input_file,
+                                                       opr='r')
+        print input_text
+        for old, new in zip(self.from_list_arr, self.to_list_arr):
+            input_text = input_text.replace(old, new)
+        print input_text
+        self.__open_file_to_read_or_write(self.output_file,
+                                          opr='w+', text=input_text)
 
 
 def main():
@@ -53,13 +71,10 @@ def main():
     output_file = arguments.output_file
     from_list_arr = arguments.fromm.split(',')
     to_list_arr = arguments.to.split(',')
-    input_text = open_file_to_read_or_write(input_file, opr='r')
-    print input_text
-    for old, new in zip(from_list_arr, to_list_arr):
-        input_text = input_text.replace(old, new)
-    print input_text
-    open_file_to_read_or_write(output_file, opr='w+', text=input_text)
+    MyWordsModifier = WordsModifier(input_file, output_file,
+                                    from_list_arr, to_list_arr)
+
+    MyWordsModifier.replace_words()
 
 if __name__ == "__main__":
     main()
-
