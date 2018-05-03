@@ -117,18 +117,18 @@ class ArgParser:
 
     @property
     def fromm(self):
-        return self.arguments.fromm
+        return self.arguments.fromm.split(',')
 
     @property
     def to(self):
-        return self.arguments.to
+        return self.arguments.to.split(',')
 
 
 def main():
     argP = ArgParser()
 
     MyWordsModifier = WordsModifier(argP.input_file, argP.output_file,
-                                    argP.fromm.split(','), argP.to.split(','))
+                                    argP.fromm, argP.to)
 
     replaced_text = MyWordsModifier.replace_words()
     MyWordsModifier.write_to_file(replaced_text)
