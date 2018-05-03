@@ -10,42 +10,42 @@ class WordsModifier:
 
     def __init__(self, input_file='file1.txt', output_file='file2.txt',
                  from_list_arr='no,bad', to_list_arr='yes,happy'):
-        self.__input_file = input_file
-        self.__output_file = output_file
-        self.__from_list_arr = from_list_arr
-        self.__to_list_arr = to_list_arr
+        self._input_file = input_file
+        self._output_file = output_file
+        self._from_list_arr = from_list_arr
+        self._to_list_arr = to_list_arr
 
     @property
-    def __input_file(self):
-        return self.__input_file
+    def input_file(self):
+        return self._input_file
 
-    @__input_file.setter
-    def __input_file(self, input_file):
-        self.__input_file = input_file
-
-    @property
-    def __output_file(self):
-        return self.__output_file
-
-    @__output_file.setter
-    def __output_file(self, output_file):
-        self.__output_file = output_file
+    @input_file.setter
+    def input_file(self, input_file):
+        self._input_file = input_file
 
     @property
-    def __from_list_arr(self):
-        return self.__from_list_arr
+    def output_file(self):
+        return self._output_file
 
-    @__from_list_arr.setter
-    def __from_list_arr(self, from_list_arr):
-        self.__from_list_arr = from_list_arr
+    @output_file.setter
+    def output_file(self, output_file):
+        self._output_file = output_file
 
     @property
-    def __to_list_arr(self):
-        return self.__to_list_arr
+    def from_list_arr(self):
+        return self._from_list_arr
 
-    @__to_list_arr.setter
-    def __to_list_arr(self, to_list_arr):
-        self.__to_list_arr = to_list_arr
+    @from_list_arr.setter
+    def from_list_arr(self, from_list_arr):
+        self._from_list_arr = from_list_arr
+
+    @property
+    def to_list_arr(self):
+        return self._to_list_arr
+
+    @to_list_arr.setter
+    def to_list_arr(self, to_list_arr):
+        self._to_list_arr = to_list_arr
 
     def __open_file_to_read_or_write(self, file_rw, opr, text=None):
         if opr == 'r':
@@ -74,16 +74,16 @@ class WordsModifier:
         return None
 
     def replace_words(self):
-        input_text = self.__open_file_to_read_or_write(self.__input_file,
+        input_text = self.__open_file_to_read_or_write(self.input_file,
                                                        opr='r')
         print input_text
-        for old, new in zip(self.__from_list_arr, self.__to_list_arr):
+        for old, new in zip(self.from_list_arr, self.to_list_arr):
             input_text = input_text.replace(old, new)
         print input_text
         return input_text
 
     def write_to_file(self, replaced_text):
-        self.__open_file_to_read_or_write(self.__output_file,
+        self.__open_file_to_read_or_write(self.output_file,
                                           opr='w+', text=replaced_text)
 
 
