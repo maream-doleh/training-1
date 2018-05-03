@@ -15,28 +15,36 @@ class WordsModifier:
         self.__from_list_arr = from_list_arr
         self.__to_list_arr = to_list_arr
 
-    def get_input_file(self):
+    @property
+    def __input_file(self):
         return self.__input_file
 
-    def set_input_file(self, input_file):
+    @__input_file.setter
+    def __input_file(self, input_file):
         self.__input_file = input_file
 
-    def get_output_file(self):
+    @property
+    def __output_file(self):
         return self.__output_file
 
-    def set_output_file(self, output_file):
+    @__output_file.setter
+    def __output_file(self, output_file):
         self.__output_file = output_file
 
-    def get_from_list_arr(self):
+    @property
+    def __from_list_arr(self):
         return self.__from_list_arr
 
-    def set_from_list_arr(self, from_list_arr):
+    @__from_list_arr.setter
+    def __from_list_arr(self, from_list_arr):
         self.__from_list_arr = from_list_arr
 
-    def get_to_list_arr(self):
+    @property
+    def __to_list_arr(self):
         return self.__to_list_arr
 
-    def set_to_list_arr(self, to_list_arr):
+    @__to_list_arr.setter
+    def __to_list_arr(self, to_list_arr):
         self.__to_list_arr = to_list_arr
 
     def __open_file_to_read_or_write(self, file_rw, opr, text=None):
@@ -80,7 +88,6 @@ class WordsModifier:
 
 
 class ArgParser:
-    arguments = ""
 
     def __init__(self):
 
@@ -100,16 +107,28 @@ class ArgParser:
 
         self.arguments = parser.parse_args()
 
-    def get_arguments(self):
-        return self.arguments
+    @property
+    def input_file(self):
+        return self.arguments.input_file
+
+    @property
+    def output_file(self):
+        return self.arguments.output_file
+
+    @property
+    def fromm(self):
+        return self.arguments.fromm
+
+    @property
+    def to(self):
+        return self.arguments.to
 
 
 def main():
-    argParser = ArgParser()
-    argu = argParser.get_arguments()
+    argP = ArgParser()
 
-    MyWordsModifier = WordsModifier(argu.input_file, argu.output_file,
-                                    argu.fromm.split(','), argu.to.split(','))
+    MyWordsModifier = WordsModifier(argP.input_file, argP.output_file,
+                                    argP.fromm.split(','), argP.to.split(','))
 
     replaced_text = MyWordsModifier.replace_words()
     MyWordsModifier.write_to_file(replaced_text)
